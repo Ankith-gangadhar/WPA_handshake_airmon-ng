@@ -257,3 +257,51 @@ Alertnatively:
 ### 🔐 hashes.org 
 
 
+## 🧬 What Really Happens When You Enter a Wi-Fi Password?
+
+When you connect to a WPA2 Wi-Fi network, your password is never sent over the air. Instead, it is used to generate cryptographic keys, which are then used to authenticate and encrypt communication.
+
+### 🔐 Key Derivation Process (Simplified)
+
+Here’s what happens:
+
+You enter the Wi-Fi password (Pre-Shared Key, or PSK)
+
+This PSK is combined with the SSID and processed using PBKDF2 (a key derivation function) to generate the Pairwise Master Key (PMK)
+
+```bash
+PMK = PBKDF2(SSID, PSK)
+```
+During the 4-way handshake, the PMK is used along with random values (nonces and MAC addresses) to derive the Pairwise Transient Key (PTK)
+
+PTK is a combination of 3 things:
+
+PMK (from password)
+
+Nonces (from router and client)
+
+MAC addresses (router + device)
+
+The PTK is split into keys including:
+
+🔑 KCK – Key Confirmation Key
+
+🧪 KEK – Key Encryption Key
+
+🔐 TK – Temporal Key (for data encryption)
+
+📎 MIC Key – Used to generate the Message Integrity Code (MIC) in handshake packets   (Weakest link where we try to get in)
+
+### 🧠 So How Does Cracking Work?
+
+When we capture the WPA2 handshake, we don’t get the password — but we do get the handshake packets containing the MIC.
+
+Cracking tools like aircrack-ng do the following:
+
+Take each password from your wordlist
+
+Derive the PMK → PTK → MIC using the captured SSID and handshake values
+
+Compare the generated MIC with the one from the captured handshake
+
+If it matches ✅ — the password is found!
