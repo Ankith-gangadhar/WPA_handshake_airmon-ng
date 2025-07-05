@@ -11,8 +11,9 @@ A step-by-step walkthrough for capturing and cracking WPA2 Wi-Fi handshakes usin
 ```bash
 ip a
 ```
-```bash
 Output:
+```bash
+
 └─$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
