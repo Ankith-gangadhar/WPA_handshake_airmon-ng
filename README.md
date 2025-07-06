@@ -304,3 +304,4 @@ Derive the PMK → PTK → MIC using the captured SSID and handshake values
 Compare the generated MIC with the one from the captured handshake
 
 If it matches ✅ — the password is found!
+ 
