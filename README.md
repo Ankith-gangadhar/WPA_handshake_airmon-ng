@@ -4,7 +4,7 @@
 A step-by-step walkthrough for capturing and cracking WPA2 Wi-Fi handshakes using Kali Linux tools such as `airmon-ng`, `airodump-ng`, `aireplay-ng`, `aircrack-ng`, and `Wireshark`. This guide includes real command examples, output samples, and clear syntax explanations to help you learn practical Wi-Fi penetration testing.
 
 ---
-
+ 
 
 ## 🔰 STEP 1: Show your current Wi-Fi interfaces
  
