@@ -42,7 +42,7 @@ sudo airmon-ng stop wlan0mon
 ```
 It will prompt for a password. Type kali if using Kali Linux.
 
-
+ 
 Output:
 ```bash
 PHY     Interface       Driver          Chipset
