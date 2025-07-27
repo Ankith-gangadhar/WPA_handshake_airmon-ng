@@ -34,8 +34,8 @@ Output:
 
 ```
 
- 
 
+ 
 ## 🛑 STEP 2: Stop Monitor Mode (to start fresh)
 ```bash
 sudo airmon-ng stop wlan0mon
