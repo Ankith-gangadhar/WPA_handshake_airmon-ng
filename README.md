@@ -5,7 +5,7 @@ A step-by-step walkthrough for capturing and cracking WPA2 Wi-Fi handshakes usin
   
 ---
   
-
+ 
 ## 🔰 STEP 1: Show your current Wi-Fi interfaces
     
 ```bash
